@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ebook LOGARIT.MA — Buku Digital Pelajaran Sekolah</title>
+
+<meta name="description" content="Kumpulan e-book mata pelajaran untuk PAUD, SD/MI, SMP/MTS, SMA/MA, dan SMK/MAK.">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="icon" href="logaritma.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<style>
+  :root {
+    --bg: #FFF8F0;
+    --bg-warm: #FDF1E3;
+    --surface: #FFFFFF;
+    --ink: #1F1611;
+    --ink-soft: #4A3F35;
+    --muted: #8C7B6B;
+    --border: #F0E0CB;
+    --border-strong: #E5C9A5;
+    --primary: #E8590C;
+    --primary-dark: #C44103;
+    --primary-deep: #6B2A07;
+    --accent: #F59E0B;
+    --success: #16A34A;
+    --success-bg: #DCFCE7;
+    --shadow-sm: 0 2px 8px -2px rgba(107, 42, 7, 0.08);
+    --shadow: 0 4px 24px -8px rgba(107, 42, 7, 0.15);
+    --shadow-lg: 0 20px 50px -12px rgba(107, 42, 7, 0.25);
+    --shadow-book: 0 30px 60px -20px rgba(31, 22, 17, 0.4), 0 12px 24px -12px rgba(31, 22, 17, 0.25);
+  }
+
+  * { 
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* Hilangkan highlight biru saat tap di Android */
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    margin: 0;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-display { font-family: 'Fraunces', serif; font-optical-sizing: auto; }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    z-index: 1;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Navbar */
+  .navbar {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(255, 248, 240, 0.82);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo-mark {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    box-shadow: 0 6px 16px rgba(232, 89, 12, 0.35);
+    transform: rotate(-4deg);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+  .logo-mark:hover { transform: rotate(0deg) scale(1.05); }
+  .nav-link {
+    font-size: 14px; font-weight: 500;
+    color: var(--ink-soft);
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--primary);
+    transition: width 0.3s;
+  }
+  .nav-link:hover { color: var(--primary); }
+  .nav-link:hover::after { width: 100%; }
+
+  /* Hero */
+  .hero { position: relative; padding: 60px 0 100px; overflow: hidden; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px;
+    background: white;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    font-size: 13px; font-weight: 600;
+    color: var(--primary-dark);
+    box-shadow: var(--shadow-sm);
+  }
+  .hero-badge .dot {
+    width: 8px; height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+  }
+  .hero-title em {
+    font-style: italic; font-weight: 400;
+    color: var(--primary);
+    position: relative;
+  }
+  .hero-title em::after {
+    content: '';
+    position: absolute; bottom: 8px; left: 0;
+    width: 100%; height: 8px;
+    background: rgba(232, 89, 12, 0.18);
+    z-index: -1; border-radius: 4px;
+  }
+
+  /* Floating book stack */
+  .book-stack { position: relative; height: 520px; perspective: 1500px; }
+  .float-book {
+    position: absolute;
+    width: 220px; height: 310px;
+    border-radius: 4px 14px 14px 4px;
+    box-shadow: var(--shadow-book);
+    overflow: hidden;
+    animation: float 6s ease-in-out infinite;
+    transition: transform 0.4s;
+  }
+  .float-book:hover {
+    animation-play-state: paused;
+    transform: scale(1.05) rotate(0deg) !important;
+    z-index: 10;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(var(--rot)); }
+    50% { transform: translateY(-18px) rotate(var(--rot)); }
+  }
+  .float-book::after {
+    content: '';
+    position: absolute; top: 0; bottom: 0; left: 14px;
+    width: 2px; background: rgba(0,0,0,0.25);
+  }
+  .float-book::before {
+    content: '';
+    position: absolute; top: 0; right: 0; bottom: 0;
+    width: 30%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.08));
+    pointer-events: none;
+  }
+  .float-book-content {
+    position: absolute; inset: 0;
+    padding: 28px 22px 22px 32px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    color: white; z-index: 2;
+  }
+  .mini-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    opacity: 0.8;
+  }
+  .mini-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 700;
+    line-height: 1.1; margin: 0 0 6px;
+  }
+  .mini-author { font-size: 12px; opacity: 0.85; margin: 0; }
+
+  /* Search bar */
+  .search-wrap { position: relative; }
+  .search-input {
+    width: 100%;
+    padding: 18px 20px 18px 56px; /* Padding disesuaikan */
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    font-size: 16px; /* Mencegah zoom otomatis di iOS/Android */
+    font-family: inherit;
+    color: var(--ink);
+    transition: all 0.2s;
+    box-shadow: var(--shadow);
+  }
+  .search-input::placeholder { color: var(--muted); }
+  .search-input:focus {
+    outline: none; border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(232, 89, 12, 0.12), var(--shadow);
+  }
+  .search-icon {
+    position: absolute; left: 20px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary); font-size: 18px;
+  }
+
+  /* Stat cards */
+  .stat-card {
+    padding: 16px 18px;
+    background: white;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .stat-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 26px; font-weight: 800;
+    color: var(--ink); line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px; color: var(--muted);
+    margin-top: 4px; font-weight: 500;
+  }
+
+  /* Filter chips */
+  .jenjang-chips {
+    display: flex; gap: 10px;
+    overflow-x: auto;
+    padding: 4px 0 8px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .jenjang-chips::-webkit-scrollbar { display: none; }
+  .jenjang-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px;
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 999px;
+    font-size: 14px; font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.25s;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .jenjang-chip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .jenjang-chip.active {
+    background: var(--ink); color: white;
+    border-color: var(--ink);
+    box-shadow: 0 6px 16px -4px rgba(31, 22, 17, 0.3);
+  }
+  .chip-count {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 22px; height: 22px; padding: 0 6px;
+    background: var(--bg-warm); color: var(--ink-soft);
+    border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+  }
+  .jenjang-chip.active .chip-count {
+    background: var(--primary); color: white;
+  }
+
+  /* Custom select */
+  .custom-select { position: relative; }
+  .custom-select select {
+    appearance: none; -webkit-appearance: none;
+    padding: 12px 40px 12px 16px;
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-size: 14px; font-weight: 600;
+    color: var(--ink); cursor: pointer;
+    font-family: inherit; width: 100%;
+    transition: all 0.2s;
+  }
+  .custom-select select:hover { border-color: var(--border-strong); }
+  .custom-select select:focus { outline: none; border-color: var(--primary); }
+  .custom-select::after {
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free'; font-weight: 900;
+    position: absolute; right: 16px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary); font-size: 12px;
+    pointer-events: none;
+  }
+
+  /* Book card & Grid (Responsif Adaptive) */
+  .books-grid {
+    display: grid; 
+    gap: 16px; /* Lebih rapat di mobile */
+    grid-template-columns: repeat(2, 1fr); /* Default 2 kolom untuk HP */
+  }
+  @media (min-width: 640px) {
+    .books-grid { 
+      grid-template-columns: repeat(3, 1fr); /* 3 kolom untuk Tablet besar */
+      gap: 20px; 
+    }
+  }
+  @media (min-width: 1024px) {
+    .books-grid { grid-template-columns: repeat(4, 1fr); gap: 28px; } /* 4 kolom untuk Desktop */
+  }
+
+  .book-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border);
+    position: relative;
+    animation: cardIn 0.5s ease-out backwards;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .book-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-strong);
+  }
+  .book-card:hover .book-cover::before { transform: translateX(8px); }
+
+  .book-cover {
+    aspect-ratio: 3/4;
+    background: var(--cover-color, var(--primary));
+    position: relative; overflow: hidden;
+    padding: 16px 14px; /* Padding disesuaikan */
+    display: flex; flex-direction: column; justify-content: space-between;
+    color: white;
+  }
+  .book-cover img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .book-cover::before {
+    content: '';
+    position: absolute; top: 0; right: 0; bottom: 0;
+    width: 40%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.1));
+    transition: transform 0.4s;
+    pointer-events: none; z-index: 1;
+  }
+  .book-cover::after {
+    content: '';
+    position: absolute; top: 0; bottom: 0; left: 10px;
+    width: 2px; background: rgba(0,0,0,0.25);
+    z-index: 1;
+  }
+  .pattern-dots .pattern-bg {
+    background-image: radial-gradient(rgba(255,255,255,0.18) 1.5px, transparent 1.5px);
+    background-size: 14px 14px;
+  }
+  .pattern-stripes .pattern-bg {
+    background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.06) 10px, rgba(255,255,255,0.06) 20px);
+  }
+  .pattern-grid .pattern-bg {
+    background-image: linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .pattern-waves .pattern-bg {
+    background: radial-gradient(circle at 0% 100%, rgba(255,255,255,0.15) 0%, transparent 45%), radial-gradient(circle at 100% 0%, rgba(255,255,255,0.1) 0%, transparent 45%);
+  }
+  .pattern-geometric .pattern-bg {
+    background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.1) 31%, transparent 31%), linear-gradient(45deg, transparent 60%, rgba(255,255,255,0.08) 60%, rgba(255,255,255,0.08) 61%, transparent 61%);
+  }
+  .pattern-bg { position: absolute; inset: 0; z-index: 0; }
+
+  .cover-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    height: 100%; justify-content: space-between;
+  }
+  .cover-mapel {
+    display: inline-block;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    opacity: 0.9;
+    padding: 4px 8px;
+    background: rgba(0,0,0,0.35);
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+    align-self: flex-start;
+  }
+  .cover-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 700; /* Sedikit lebih kecil */
+    line-height: 1.1; margin: 0 0 4px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .cover-author { font-size: 11px; opacity: 0.9; margin: 0; }
+
+  .book-info { padding: 14px 16px 16px; }
+  .book-meta {
+    display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;
+  }
+  .meta-badge {
+    font-size: 10px; font-weight: 700;
+    padding: 4px 8px; border-radius: 6px;
+    letter-spacing: 0.04em;
+  }
+  .meta-jenjang { background: var(--ink); color: white; }
+  .meta-kelas {
+    background: var(--bg-warm); color: var(--primary-dark);
+    border: 1px solid var(--border);
+  }
+  .book-title {
+    font-family: 'Fraunces', serif;
+    font-size: 16px; font-weight: 600;
+    line-height: 1.2; color: var(--ink);
+    margin: 0 0 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .book-author { font-size: 12px; color: var(--muted); margin: 0 0 12px; }
+  .book-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 12px; border-top: 1px solid var(--border);
+  }
+  .book-size {
+    font-size: 11px; color: var(--muted); font-weight: 500;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-read {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    background: var(--bg-warm); color: var(--primary-dark);
+    border-radius: 8px; font-size: 12px; font-weight: 600;
+    border: none; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .book-card:hover .btn-read {
+    background: var(--primary); color: white; gap: 10px;
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center; padding: 40px 20px;
+    background: white; border-radius: 20px;
+    border: 1px dashed var(--border-strong);
+  }
+  .empty-icon {
+    width: 70px; height: 70px; margin: 0 auto 20px;
+    background: var(--bg-warm); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--primary); font-size: 28px;
+  }
+
+  /* Modal (Optimasi Mobile & Tablet) */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(31, 22, 17, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 100;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .modal-overlay.active { display: flex; opacity: 1; }
+  .modal-content {
+    background: white; border-radius: 24px;
+    max-width: 880px; width: 100%;
+    max-height: 92vh; overflow: hidden;
+    transform: scale(0.95) translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: grid;
+    grid-template-columns: 280px 1fr;
+  }
+  .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+  
+  .modal-cover-wrap {
+    padding: 30px; background: var(--bg-warm);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-cover {
+    width: 100%; aspect-ratio: 3/4;
+    border-radius: 6px 14px 14px 4px;
+    box-shadow: var(--shadow-book);
+    overflow: hidden; position: relative;
+    padding: 22px 20px; color: white;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .modal-info { padding: 32px 36px; overflow-y: auto; position: relative; }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--bg-warm); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-soft); transition: all 0.2s;
+    z-index: 10;
+  }
+  .modal-close:hover { background: var(--ink); color: white; transform: rotate(90deg); }
+  .modal-meta { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .modal-title {
+    font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700;
+    line-height: 1.1; color: var(--ink); margin: 0 0 8px; letter-spacing: -0.02em;
+  }
+  .modal-author { font-size: 15px; color: var(--primary-dark); margin: 0 0 20px; font-weight: 500; }
+  .modal-specs {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    margin-bottom: 24px; padding: 18px;
+    background: var(--bg-warm); border-radius: 14px;
+  }
+  .modal-specs > div { display: flex; flex-direction: column; gap: 2px; }
+  .modal-specs span {
+    font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+  }
+  .modal-specs strong { font-size: 15px; color: var(--ink); font-weight: 700; }
+  .modal-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    flex: 1; min-width: 140px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 14px 20px;
+    background: var(--primary); color: white;
+    border: none; border-radius: 12px;
+    font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    box-shadow: 0 6px 16px -4px rgba(232, 89, 12, 0.45);
+    font-family: inherit; text-decoration: none;
+  }
+  .btn-primary:hover {
+    background: var(--primary-dark); transform: translateY(-2px);
+    box-shadow: 0 10px 24px -4px rgba(232, 89, 12, 0.55);
+  }
+  .btn-secondary {
+    flex: 1; min-width: 140px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 14px 20px;
+    background: white; color: var(--ink);
+    border: 1.5px solid var(--border-strong); border-radius: 12px;
+    font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    font-family: inherit; text-decoration: none;
+  }
+  .btn-secondary:hover {
+    background: var(--bg-warm); border-color: var(--primary); color: var(--primary-dark);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 20px; left: 50%;
+    transform: translateX(-50%) translateY(120px);
+    background: var(--ink); color: white;
+    padding: 12px 20px; border-radius: 12px;
+    font-size: 14px; font-weight: 500;
+    z-index: 200;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: var(--shadow-lg);
+    display: flex; align-items: center; gap: 10px;
+    max-width: 90vw;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast i { color: var(--accent); }
+
+  /* Guide Section */
+  .guide-section {
+    background: linear-gradient(180deg, var(--bg-warm) 0%, var(--bg) 100%);
+    padding: 60px 0; position: relative; overflow: hidden;
+  }
+  .ss-card {
+    background: white; border-radius: 20px;
+    padding: 24px; box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .col-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .col-table th, .col-table td {
+    text-align: left; padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .col-table th {
+    background: var(--bg-warm); font-weight: 700;
+    color: var(--ink); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .col-table code {
+    background: var(--bg-warm); padding: 2px 6px;
+    border-radius: 4px; font-family: 'Courier New', monospace;
+    color: var(--primary-dark); font-weight: 600; font-size: 12px;
+  }
+  .col-table .req { color: var(--primary); font-weight: 700; }
+  .col-table .opt { color: var(--muted); }
+
+  /* Footer */
+  .footer {
+    background: var(--ink); color: #FDF1E3;
+    padding: 50px 0 30px; position: relative; overflow: hidden;
+  }
+  .footer-link { color: #C4B5A0; font-size: 14px; transition: color 0.2s; }
+  .footer-link:hover { color: var(--accent); }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 1023px) {
+    /* Sembunyikan floating book di tablet ke bawah */
+    .book-stack { display: none; }
+    .hero { padding: 40px 0 60px; }
+  }
+
+  @media (max-width: 768px) {
+    /* Optimasi Mobile */
+    .hero-title { font-size: clamp(34px, 8vw, 48px); }
+    .modal-content { 
+      grid-template-columns: 1fr; 
+      max-height: 90vh; 
+      overflow-y: auto;
+      border-radius: 20px;
+    }
+    .modal-cover-wrap { padding: 20px; max-height: 280px; }
+    .modal-cover { width: 140px; height: auto; aspect-ratio: 3/4; }
+    .modal-info { padding: 24px 20px; }
+    .modal-title { font-size: 22px; }
+    .modal-specs { grid-template-columns: 1fr; }
+    .modal-actions { flex-direction: column; }
+    .btn-primary, .btn-secondary { width: 100%; }
+    .guide-section { padding: 40px 0; }
+    .ss-card { padding: 20px; }
+    .footer { padding: 40px 0 20px; }
+  }
+
+  @media (max-width: 480px) {
+    /* Optimasi Smartphone Kecil */
+    .books-grid { gap: 12px; }
+    .book-info { padding: 12px; }
+    .cover-title { font-size: 16px; }
+    .book-title { font-size: 14px; }
+    .btn-read { padding: 6px 10px; font-size: 11px; }
+    .nav-link { font-size: 13px; }
+  }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s, transform 0.8s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .section-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--primary); margin-bottom: 12px;
+  }
+  .section-eyebrow::before {
+    content: ''; width: 24px; height: 2px; background: var(--primary);
+  }
+
+  .mobile-menu-btn { display: none; }
+  @media (max-width: 768px) {
+    .desktop-nav { display: none; }
+    .mobile-menu-btn { display: flex; }
+  }
+
+  .result-count { font-family: 'Fraunces', serif; font-weight: 700; color: var(--primary); }
+  .stat-card .stat-num { transition: transform 0.3s; }
+  .stat-card:hover .stat-num { transform: scale(1.08); }
+
+  /* Connection status */
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 12px; font-weight: 600;
+  }
+  .status-badge.online { background: var(--success-bg); color: var(--success); }
+  .status-badge.offline { background: #FEE2E2; color: #DC2626; }
+  .status-badge.loading { background: #FEF3C7; color: #92400E; }
+  .status-badge .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .status-badge.online .dot { background: var(--success); animation: pulse 2s infinite; }
+  .status-badge.offline .dot { background: #DC2626; }
+  .status-badge.loading .dot { background: var(--accent); animation: pulse 1s infinite; }
+</style>
+</head>
+<body>
+
+<!-- Decorative blobs -->
+<div class="blob" style="width: 500px; height: 500px; background: var(--primary); top: -150px; right: -100px; opacity: 0.18;"></div>
+<div class="blob" style="width: 400px; height: 400px; background: var(--accent); top: 400px; left: -150px; opacity: 0.15;"></div>
+<div class="blob" style="width: 450px; height: 450px; background: var(--primary); top: 1600px; right: -100px; opacity: 0.1;"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-18 py-4">
+      <a href="#" class="flex items-center gap-3">
+        <div class="logo-mark">
+          <i class="fas fa-book-open text-lg"></i>
+        </div>
+        <div>
+          <div class="font-display text-xl font-bold leading-none">Ebook LOGARIT.MA</div>
+          <div class="text-[11px] text-[var(--muted)] font-medium tracking-wide mt-0.5 hidden sm:block">Buku Digital Pelajaran</div>
+        </div>
+      </a>
+
+      <nav class="desktop-nav flex items-center gap-8">
+        <a href="#koleksi" class="nav-link">Koleksi</a>
+        <a href="#jenjang" class="nav-link">Jenjang</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <button id="sync-btn" class="hidden md:inline-flex items-center gap-2 px-4 py-2.5 bg-[var(--ink)] text-white rounded-full text-sm font-semibold hover:bg-[var(--primary)] transition-colors">
+          <i class="fas fa-rotate-right text-xs"></i> Refresh
+        </button>
+        <button class="mobile-menu-btn w-10 h-10 rounded-full bg-white border border-[var(--border)] items-center justify-center" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
+          <i class="fas fa-bars text-[var(--ink)]"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-nav" class="hidden md:hidden pb-4 space-y-2">
+      <a href="#koleksi" class="block py-2 nav-link">Koleksi</a>
+      <a href="#jenjang" class="block py-2 nav-link">Jenjang</a>
+      <button onclick="fetchFromSheet()" class="mt-2 w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--ink)] text-white rounded-full text-sm font-semibold hover:bg-[var(--primary)] transition-colors">
+        <i class="fas fa-rotate-right text-xs"></i> Muat Ulang Data
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7">
+        <div class="hero-badge mb-6">
+          <span class="dot"></span>
+          <span id="hero-badge-text">Memuat koleksi e-book...</span>
+        </div>
+
+        <h1 class="hero-title text-5xl md:text-6xl lg:text-7xl mb-6">
+          Ebook LOGARIT.MA<br><em>Tahap Belajar</em>
+        </h1>
+
+        <p class="text-base md:text-lg text-[var(--ink-soft)] mb-8 max-w-xl leading-relaxed">
+          Kumpulan buku digital mata pelajaran untuk PAUD, SD/MI, SMP/MTS, SMA/MA, hingga SMK/MAK. Temukan, baca, dan unduh dengan mudah—gratis untuk semua siswa Indonesia.
+        </p>
+
+        <div class="search-wrap mb-8 max-w-xl">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="hero-search" class="search-input" placeholder="Cari judul buku, penulis, atau mata pelajaran..." aria-label="Cari ebook">
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl">
+          <div class="stat-card">
+            <div class="stat-num" id="stat-total">0</div>
+            <div class="stat-label">Total E-Book</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">5</div>
+            <div class="stat-label">Jenjang Sekolah</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stat-mapel">0</div>
+            <div class="stat-label">Kategori Buku</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Gratis Akses</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5">
+        <div class="book-stack">
+          <div class="float-book" style="--rot: -9deg; top: 20px; left: 8%; background: linear-gradient(135deg, #1E3A5F, #2C4F7C); animation-delay: 0s;">
+            <div class="float-book-content">
+              <span class="mini-label">Sains</span>
+              <div><h4 class="mini-title">Alam Semesta</h4><p class="mini-author">Dr. Yulianto</p></div>
+            </div>
+          </div>
+          <div class="float-book" style="--rot: 6deg; top: 40px; right: 5%; background: linear-gradient(135deg, #B23A48, #C4495A); animation-delay: 1.2s;">
+            <div class="float-book-content">
+              <span class="mini-label">B. Indonesia</span>
+              <div><h4 class="mini-title">Sastrawarga</h4><p class="mini-author">Sutanto</p></div>
+            </div>
+          </div>
+          <div class="float-book" style="--rot: -4deg; bottom: 80px; left: 15%; background: linear-gradient(135deg, #2D5A3D, #3B7250); animation-delay: 0.6s;">
+            <div class="float-book-content">
+              <span class="mini-label">Matematika</span>
+              <div><h4 class="mini-title">Logika Berpikir</h4><p class="mini-author">Tim Edukasi</p></div>
+            </div>
+          </div>
+          <div class="float-book" style="--rot: 10deg; bottom: 40px; right: 12%; background: linear-gradient(135deg, #E8590C, #F47B36); animation-delay: 1.8s;">
+            <div class="float-book-content">
+              <span class="mini-label">Sejarah</span>
+              <div><h4 class="mini-title">Nusantara</h4><p class="mini-author">A. Gonggong</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KOLEKSI / FILTER ============ -->
+<section id="koleksi" class="py-12 md:py-16 relative z-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+      <div>
+        <div class="section-eyebrow">Koleksi E-Book</div>
+        <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">Jelajahi Perpustakaan</h2>
+        <p class="text-[var(--ink-soft)] mt-3 max-w-2xl text-sm md:text-base">Saring berdasarkan jenjang, kategori, atau cari judul spesifik. Klik kartu untuk detail dan tautan baca.</p>
+      </div>
+      <div class="flex items-center gap-3 flex-wrap">
+        <span id="conn-status" class="status-badge loading"><span class="dot"></span> Memuat Data...</span>
+        <div class="text-sm text-[var(--muted)]">
+          Menampilkan <span class="result-count" id="result-count">0</span> dari <span id="total-count">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="jenjang" class="mb-6">
+      <div class="text-xs font-bold text-[var(--muted)] uppercase tracking-wider mb-3">Filter Jenjang</div>
+      <div class="jenjang-chips" id="jenjang-chips"></div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-10">
+      <div class="custom-select">
+        <select id="mapel-select" aria-label="Filter kategori">
+          <option value="all">Semua Kategori</option>
+        </select>
+      </div>
+      <div class="custom-select">
+        <select id="sort-select" aria-label="Urutkan">
+          <option value="newest">Terbaru</option>
+          <option value="oldest">Terlama</option>
+          <option value="title">Judul A-Z</option>
+        </select>
+      </div>
+      <div class="custom-select">
+        <select id="kelas-select" aria-label="Filter kelas">
+          <option value="all">Semua Kelas</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="books-grid" id="book-grid"></div>
+
+    <div class="empty-state" id="empty-state" style="display: none;">
+      <div class="empty-icon"><i class="fas fa-book-open"></i></div>
+      <h3 class="font-display text-xl md:text-2xl font-bold mb-2">Tidak ada e-book ditemukan</h3>
+      <p class="text-[var(--muted)] mb-5 text-sm">Coba ubah filter atau kata kunci pencarian Anda</p>
+      <button onclick="resetFilters()" class="px-5 py-2.5 bg-[var(--primary)] text-white rounded-full text-sm font-semibold hover:bg-[var(--primary-dark)] transition">
+        <i class="fas fa-rotate-left mr-2"></i> Reset Semua Filter
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="grid md:grid-cols-4 gap-8 mb-10">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="logo-mark"><i class="fas fa-book-open text-lg"></i></div>
+          <div class="font-display text-xl font-bold">Ebook LOGARIT.MA</div>
+        </div>
+        <p class="text-sm leading-relaxed max-w-md mb-4" style="color: #C4B5A0;">
+          Buku digital e-book pelajaran untuk semua jenjang sekolah Indonesia. Gratis, terbuka, dan mudah diakses untuk mendukung literasi dan pendidikan.
+        </p>
+        <div class="flex gap-3">
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-[var(--primary)] flex items-center justify-center transition" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-[var(--primary)] flex items-center justify-center transition" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-[var(--primary)] flex items-center justify-center transition" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-[var(--primary)] flex items-center justify-center transition" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-display font-bold mb-4 text-base">Jenjang</h4>
+        <ul class="space-y-2.5">
+          <li><a href="#" class="footer-link">PAUD</a></li>
+          <li><a href="#" class="footer-link">SD / MI</a></li>
+          <li><a href="#" class="footer-link">SMP / MTS</a></li>
+          <li><a href="#" class="footer-link">SMA / MA</a></li>
+          <li><a href="#" class="footer-link">SMK / MAK</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-display font-bold mb-4 text-base">Tautan</h4>
+        <ul class="space-y-2.5">
+          <li><a href="#koleksi" class="footer-link">Koleksi Buku</a></li>
+          <li><a href="http://wa.me/+6285217421394" class="footer-link">Kontak</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-6 border-t border-white/10 flex flex-col md:flex-row gap-4 justify-between items-center text-xs" style="color: #8C7B6B;">
+      <div>© 2026 Ebook LOGARIT.MA. Dibuat untuk pendidikan Indonesia.</div>
+      <div class="flex gap-6">
+        <a href="#" class="footer-link">Kebijakan Privasi</a>
+        <a href="#" class="footer-link">Syarat Layanan</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ MODAL ============ -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true">
+  <div class="modal-content" id="modal-content"></div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast">
+  <i class="fas fa-circle-check"></i>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+/* ========================================================
+   KONFIGURASI SPREADSHEET UTAMA
+   ======================================================== */
+const DEFAULT_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1iUSvhouE3BgXG9xT5GAgjnGfWU6YbvIg6q32cLjZwTA/export?format=csv&gid=0';
+const JENJANG_LIST = ['PAUD', 'SD/MI', 'SMP/MTS', 'SMA/MA', 'SMK/MAK'];
+
+let state = {
+  data: [],
+  jenjang: 'all',
+  mapel: 'all',
+  kelas: 'all',
+  search: '',
+  sort: 'newest'
+};
+
+const COVER_PATTERNS = ['dots', 'stripes', 'grid', 'waves', 'geometric'];
+const COVER_COLORS = [
+  '#1E3A5F', '#B23A48', '#2D5A3D', '#5B3A8C', '#1F2937',
+  '#6B4423', '#0F4C3A', '#D97706', '#7C2D12', '#1F5673',
+  '#312E81', '#064E3B', '#831843', '#7C2D12', '#1E3A5F'
+];
+
+function hashCode(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
+
+function getCoverStyle(book) {
+  const hash = hashCode(book.Nama_Buku || 'Untitled');
+  const color = COVER_COLORS[hash % COVER_COLORS.length];
+  const pattern = COVER_PATTERNS[hash % COVER_PATTERNS.length];
+  return { color, pattern };
+}
+
+async function fetchFromSheet() {
+  const statusBadge = document.getElementById('conn-status');
+  statusBadge.className = 'status-badge loading';
+  statusBadge.innerHTML = '<span class="dot"></span> Memuat Data...';
+
+  try {
+    const response = await fetch(DEFAULT_SHEET_CSV_URL);
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+
+    const csv = await response.text();
+    if (!csv.trim()) {
+      showToast('Spreadsheet terhubung tetapi kosong', 'circle-info');
+      state.data = [];
+      updateConnectionStatus(false);
+      renderAll();
+      return false;
+    }
+
+    const result = Papa.parse(csv, {
+      header: true,
+      skipEmptyLines: true,
+      transformHeader: h => h.trim()
+    });
+
+    const newData = result.data
+      .filter(row => {
+        const keys = Object.keys(row);
+        return keys.some(k => row[k] && row[k].trim());
+      })
+      .map((row, i) => {
+        const normalized = {};
+        const keys = Object.keys(row);
+        keys.forEach(k => {
+          const lower = k.toLowerCase().replace(/[\s_]+/g, '_');
+          normalized[lower] = row[k];
+        });
+
+        return {
+          id: i + 1,
+          Nama_Buku: (normalized.nama_buku || '').trim(),
+          Jenjang_Sekolah: (normalized.jenjang_sekolah || '').trim(),
+          Tingkat_Kelas: (normalized.tingkat_kelas || '').trim(),
+          Kategori_Buku: (normalized.kategori_buku || '').trim(),
+          Link_Cover_Buku: (normalized.link_cover_buku || '').trim(),
+          Link_EBook: (normalized.link_ebook || '').trim()
+        };
+      })
+      .filter(b => b.Nama_Buku);
+
+    if (newData.length === 0) {
+      showToast('Spreadsheet terhubung tetapi belum ada data.', 'circle-info');
+      state.data = [];
+      updateConnectionStatus(false);
+      renderAll();
+      return true;
+    }
+
+    state.data = newData;
+    renderAll();
+    updateConnectionStatus(true);
+    showToast(`Berhasil memuat ${newData.length} e-book`, 'circle-check');
+    return true;
+  } catch (e) {
+    console.error('Fetch error:', e);
+    showToast('Gagal memuat data. Pastikan spreadsheet dipublikasikan.', 'triangle-exclamation');
+    state.data = [];
+    updateConnectionStatus(false);
+    renderAll();
+    return false;
+  }
+}
+
+function renderAll() {
+  renderJenjangChips();
+  renderMapelOptions();
+  renderKelasOptions();
+  renderBooks();
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById('stat-total').textContent = state.data.length;
+  document.getElementById('stat-mapel').textContent = new Set(state.data.map(b => b.Kategori_Buku).filter(Boolean)).size;
+  document.getElementById('hero-badge-text').textContent = state.data.length > 0
+    ? `Tersedia ${state.data.length} e-book pelajaran terkurasi`
+    : 'Belum ada e-book di spreadsheet';
+}
+
+function updateConnectionStatus(online) {
+  const badge = document.getElementById('conn-status');
+  if (online) {
+    badge.className = 'status-badge online';
+    badge.innerHTML = '<span class="dot"></span> Terhubung ke Spreadsheet';
+  } else {
+    badge.className = 'status-badge offline';
+    badge.innerHTML = '<span class="dot"></span> Spreadsheet Kosong/Error';
+  }
+}
+
+function renderJenjangChips() {
+  const container = document.getElementById('jenjang-chips');
+  const counts = { all: state.data.length };
+  JENJANG_LIST.forEach(j => {
+    counts[j] = state.data.filter(b => b.Jenjang_Sekolah === j).length;
+  });
+
+  container.innerHTML = `
+    <button class="jenjang-chip ${state.jenjang === 'all' ? 'active' : ''}" data-jenjang="all">
+      Semua <span class="chip-count">${counts.all}</span>
+    </button>
+    ${JENJANG_LIST.map(j => `
+      <button class="jenjang-chip ${state.jenjang === j ? 'active' : ''}" data-jenjang="${j}">
+        ${j} <span class="chip-count">${counts[j]}</span>
+      </button>
+    `).join('')}
+  `;
+
+  container.querySelectorAll('.jenjang-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.jenjang = btn.dataset.jenjang;
+      renderJenjangChips();
+      renderBooks();
+    });
+  });
+}
+
+function renderMapelOptions() {
+  const select = document.getElementById('mapel-select');
+  const mapelList = [...new Set(state.data.map(b => b.Kategori_Buku).filter(Boolean))].sort();
+  select.innerHTML = `
+    <option value="all">Semua Kategori</option>
+    ${mapelList.map(m => `<option value="${m}" ${state.mapel === m ? 'selected' : ''}>${m}</option>`).join('')}
+  `;
+}
+
+function renderKelasOptions() {
+  const select = document.getElementById('kelas-select');
+  const kelasList = [...new Set(state.data.map(b => b.Tingkat_Kelas).filter(Boolean))].sort((a, b) => {
+    const na = parseInt(a), nb = parseInt(b);
+    if (!isNaN(na) && !isNaN(nb)) return na - nb;
+    return String(a).localeCompare(String(b));
+  });
+  select.innerHTML = `
+    <option value="all">Semua Kelas</option>
+    ${kelasList.map(k => `<option value="${k}" ${state.kelas === k ? 'selected' : ''}>Kelas ${k}</option>`).join('')}
+  `;
+}
+
+function getFilteredBooks() {
+  let filtered = state.data.filter(b => {
+    if (state.jenjang !== 'all' && b.Jenjang_Sekolah !== state.jenjang) return false;
+    if (state.mapel !== 'all' && b.Kategori_Buku !== state.mapel) return false;
+    if (state.kelas !== 'all' && b.Tingkat_Kelas !== state.kelas) return false;
+    if (state.search) {
+      const s = state.search.toLowerCase();
+      if (!b.Nama_Buku.toLowerCase().includes(s) &&
+          !(b.Kategori_Buku || '').toLowerCase().includes(s) &&
+          !(b.Jenjang_Sekolah || '').toLowerCase().includes(s)) return false;
+    }
+    return true;
+  });
+
+  if (state.sort === 'title') {
+    filtered.sort((a, b) => a.Nama_Buku.localeCompare(b.Nama_Buku));
+  } else if (state.sort === 'newest') {
+    filtered.sort((a, b) => b.id - a.id);
+  } else if (state.sort === 'oldest') {
+    filtered.sort((a, b) => a.id - b.id);
+  }
+
+  return filtered;
+}
+
+function renderBooks() {
+  const grid = document.getElementById('book-grid');
+  const filtered = getFilteredBooks();
+  const countEl = document.getElementById('result-count');
+  const totalEl = document.getElementById('total-count');
+  const emptyEl = document.getElementById('empty-state');
+
+  countEl.textContent = filtered.length;
+  totalEl.textContent = state.data.length;
+
+  if (filtered.length === 0) {
+    grid.style.display = 'none';
+    emptyEl.style.display = 'block';
+    return;
+  }
+
+  grid.style.display = 'grid';
+  emptyEl.style.display = 'none';
+
+  grid.innerHTML = filtered.map((book, i) => {
+    const cover = getCoverStyle(book);
+    const hasImage = book.Link_Cover_Buku && book.Link_Cover_Buku.startsWith('http');
+
+    return `
+      <article class="book-card" data-id="${book.id}" style="animation-delay: ${i * 0.04}s">
+        <div class="book-cover pattern-${cover.pattern}" style="--cover-color: ${cover.color}; ${hasImage ? '' : `background: ${cover.color};`}">
+          ${hasImage ? `<img src="${book.Link_Cover_Buku}" alt="${book.Nama_Buku}" onerror="this.style.display='none'; this.parentElement.style.background='${cover.color}';">` : '<div class="pattern-bg"></div>'}
+          <div class="cover-content">
+            <span class="cover-mapel">${book.Kategori_Buku || 'Umum'}</span>
+            <div>
+              <h3 class="cover-title">${book.Nama_Buku}</h3>
+              <p class="cover-author">${book.Jenjang_Sekolah} • Kelas ${book.Tingkat_Kelas}</p>
+            </div>
+          </div>
+        </div>
+        <div class="book-info">
+          <div class="book-meta">
+            <span class="meta-badge meta-jenjang">${book.Jenjang_Sekolah}</span>
+            <span class="meta-badge meta-kelas">Kelas ${book.Tingkat_Kelas}</span>
+          </div>
+          <h3 class="book-title">${book.Nama_Buku}</h3>
+          <p class="book-author">${book.Kategori_Buku || 'Umum'}</p>
+          <div class="book-footer">
+            <span class="book-size"><i class="fas fa-book"></i> E-Book</span>
+            <button class="btn-read" tabindex="-1">Baca <i class="fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  grid.querySelectorAll('.book-card').forEach(card => {
+    card.addEventListener('click', () => openModal(parseInt(card.dataset.id)));
+  });
+}
+
+function openModal(id) {
+  const book = state.data.find(b => b.id === id);
+  if (!book) return;
+
+  const cover = getCoverStyle(book);
+  const hasImage = book.Link_Cover_Buku && book.Link_Cover_Buku.startsWith('http');
+  const hasLink = book.Link_EBook && book.Link_EBook.startsWith('http');
+
+  const modal = document.getElementById('modal');
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-cover-wrap">
+      <div class="modal-cover pattern-${cover.pattern}" style="background: ${cover.color};">
+        ${hasImage ? `<img src="${book.Link_Cover_Buku}" alt="${book.Nama_Buku}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">` : '<div class="pattern-bg"></div>'}
+        <div class="cover-content">
+          <span class="cover-mapel">${book.Kategori_Buku || 'Umum'}</span>
+          <div>
+            <h3 class="cover-title font-display">${book.Nama_Buku}</h3>
+            <p class="cover-author">${book.Jenjang_Sekolah} • Kelas ${book.Tingkat_Kelas}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-info">
+      <button class="modal-close" onclick="closeModal()" aria-label="Tutup">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="modal-meta">
+        <span class="meta-badge meta-jenjang">${book.Jenjang_Sekolah}</span>
+        <span class="meta-badge meta-kelas">Kelas ${book.Tingkat_Kelas}</span>
+        <span class="meta-badge" style="background: var(--bg-warm); color: var(--ink-soft); border: 1px solid var(--border);">${book.Kategori_Buku || 'Umum'}</span>
+      </div>
+      <h2 class="modal-title">${book.Nama_Buku}</h2>
+      <p style="font-size: 15px; color: var(--primary-dark); margin: 0 0 20px; font-weight: 500;">Kategori: ${book.Kategori_Buku || 'Umum'}</p>
+
+      <div class="modal-specs">
+        <div><span>Jenjang</span><strong>${book.Jenjang_Sekolah}</strong></div>
+        <div><span>Kelas</span><strong>${book.Tingkat_Kelas}</strong></div>
+        <div><span>Kategori</span><strong>${book.Kategori_Buku || '-'}</strong></div>
+        <div><span>ID Buku</span><strong>#${book.id}</strong></div>
+      </div>
+
+      <div class="modal-actions">
+        ${hasLink
+          ? `<a href="${book.Link_EBook}" target="_blank" class="btn-primary"><i class="fas fa-book-open"></i> Baca Sekarang</a>`
+          : `<button class="btn-primary" onclick="showToast('Tautan e-book belum tersedia', 'circle-info')"><i class="fas fa-book-open"></i> Baca Sekarang</button>`
+        }
+        ${hasLink
+          ? `<a href="${book.Link_EBook}" download class="btn-secondary"><i class="fas fa-download"></i> Unduh</a>`
+          : `<button class="btn-secondary" onclick="showToast('Tautan e-book belum tersedia', 'circle-info')"><i class="fas fa-download"></i> Unduh</button>`
+        }
+      </div>
+    </div>
+  `;
+
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function showToast(msg, icon = 'circle-check') {
+  const toast = document.getElementById('toast');
+  toast.querySelector('i').className = `fas fa-${icon}`;
+  document.getElementById('toast-msg').textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function resetFilters() {
+  state.jenjang = 'all';
+  state.mapel = 'all';
+  state.kelas = 'all';
+  state.search = '';
+  state.sort = 'newest';
+  document.getElementById('hero-search').value = '';
+  document.getElementById('sort-select').value = 'newest';
+  renderAll();
+}
+
+function setupListeners() {
+  let heroSearchScrolled = false;
+  document.getElementById('hero-search').addEventListener('input', (e) => {
+    state.search = e.target.value;
+    if (!heroSearchScrolled && e.target.value.length > 0) {
+      document.getElementById('koleksi').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      heroSearchScrolled = true;
+      setTimeout(() => { heroSearchScrolled = false; }, 1500);
+    }
+    renderBooks();
+  });
+
+  document.getElementById('mapel-select').addEventListener('change', (e) => {
+    state.mapel = e.target.value;
+    renderBooks();
+  });
+
+  document.getElementById('sort-select').addEventListener('change', (e) => {
+    state.sort = e.target.value;
+    renderBooks();
+  });
+
+  document.getElementById('kelas-select').addEventListener('change', (e) => {
+    state.kelas = e.target.value;
+    renderBooks();
+  });
+
+  document.getElementById('sync-btn').addEventListener('click', fetchFromSheet);
+
+  document.getElementById('modal').addEventListener('click', (e) => {
+    if (e.target.id === 'modal') closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+async function init() {
+  setupListeners();
+  renderAll();
+  await fetchFromSheet();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
