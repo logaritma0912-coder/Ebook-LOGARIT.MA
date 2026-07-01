@@ -1146,7 +1146,7 @@ function getFilteredBooks() {
 
 function renderBooks() {
   const grid = document.getElementById('book-grid');
-  const filtered = getFilteredBooks();
+  const filtered = getFilteredBooks().slice(0, 20);
   const countEl = document.getElementById('result-count');
   const totalEl = document.getElementById('total-count');
   const emptyEl = document.getElementById('empty-state');
